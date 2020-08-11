@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Objects;
 
+@Profile("embedded")
 @Slf4j
 @Configuration
 @RequiredArgsConstructor

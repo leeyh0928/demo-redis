@@ -1,14 +1,17 @@
 package com.example.redis.demo.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.seruco.encoding.base62.Base62;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Base64;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +22,13 @@ public class Token {
     private long token62Length;
     private long tokenId;
     private String keyword;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime expiredAt;
 
     public Token(long tokenId, String keyword) {
@@ -40,10 +49,4 @@ public class Token {
         this.tokenLength = token.length();
         this.token62Length = token62.length();
     }
-
-//    public static String sha256(String msg)  throws NoSuchAlgorithmException {
-//        MessageDigest md = MessageDigest.getInstance("SHA-256");
-//        md.update(msg.getBytes());
-//        return Base64.getEncoder().encodeToString(md.digest());
-//    }
 }
